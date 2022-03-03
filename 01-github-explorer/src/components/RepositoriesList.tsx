@@ -1,16 +1,16 @@
 import {useState, useEffect} from 'react'
-import RepositoryItem from './RepositoryItem'
+import {RepositoryItem} from './RepositoryItem'
 import './../styles/repositories.scss'
 
 interface Repository{
     name: string
     description: string
-    url: string
+    html_url: string
     node_id: string
 }
 
-export default function RepositoryList(){
-    const [repositories, setRepositories] = useState([])
+export function RepositoryList(){
+    const [repositories, setRepositories] = useState<Repository[]>([])
 
     useEffect(() => {
         fetch('https://api.github.com/users/nathanholanda/repos')
@@ -23,7 +23,7 @@ export default function RepositoryList(){
             <h1>Lista de repositórios</h1>
 
             <ul>
-                {repositories.map((repository: Repository) => <RepositoryItem key={repository.node_id} repository={repository}/>
+                {repositories.map((repository) => <RepositoryItem key={repository.node_id} repository={repository}/>
                 )} 
             </ul>
         </section>

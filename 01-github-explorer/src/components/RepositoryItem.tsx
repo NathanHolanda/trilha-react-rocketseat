@@ -2,18 +2,18 @@ interface RepositoryItemProps {
     repository: {
         name: string
         description: string
-        url: string
+        html_url: string
     }
 }
 
-export default function RepositoryItem(props: RepositoryItemProps){
+export function RepositoryItem(props: RepositoryItemProps){
     const {repository} = props
 
     return (
         <li className="repository-item">
             <strong>{repository.name}</strong>
             <p>{repository.description}</p>
-            <a href={repository.url}>Acessar</a>
+            <a href={repository.html_url}>Acessar</a>
         </li>
     )
 }
