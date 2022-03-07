@@ -1,5 +1,16 @@
 import {createGlobalStyle} from 'styled-components'
 
+export const globalStyleVars = {
+    background: '#E5E5E5',
+    blue: '#5429CC',
+    green: '#33CC95',
+    red: '#E52E4D',
+    lightBlue: '#6933FF',
+    shape: '#FFFFFF',
+    textTitle: '#363F5F',
+    textBody: '#969CB2'
+}
+
 export const GlobalStyle = createGlobalStyle`
     :root{
         --background: #E5E5E5;
@@ -78,5 +89,9 @@ export const GlobalStyle = createGlobalStyle`
         top: 1.5rem;
         right: 1.5rem;
         border: 0;
+
+        &:hover{
+            background-color: initial;
+        }
     }
 `

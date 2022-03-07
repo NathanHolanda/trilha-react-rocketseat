@@ -1,5 +1,11 @@
 import styled from 'styled-components'
-import {darken} from 'polished'
+import {darken, transparentize} from 'polished'
+import { globalStyleVars } from './../../styles/globals';
+
+interface TransactionOperationButtonProps{
+    isActive: boolean
+    activeColor: 'green' | 'red'
+}
 
 export const Title = styled.h2`
     color: var(--text-title);
@@ -24,7 +30,7 @@ export const Container = styled.form`
         border-radius: 0.25rem;
 
         &:focus{
-            outline: #acf 3px solid;
+            outline: ${transparentize(0.7, globalStyleVars['blue'])} 0.2rem solid;
         }
 
         &::placeholder{
@@ -32,7 +38,7 @@ export const Container = styled.form`
         }
     }
 
-    button{
+    button.confirm{
         font-size: 1.2rem;
         background-color: var(--green);
         color: #fff;
@@ -57,34 +63,33 @@ export const TransactionOperationContainer = styled.div`
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
     margin-bottom: 2rem;
+`
 
-    label{
-        padding: 1rem 0;
-        border-radius: 0.25rem;
-        cursor: pointer;
-        transition: transform 0.1s;
-        border: 1px solid #fff;
-        user-select: none;
-        -webkit-user-select: none;
-        color: var(--text-title);
-        transition: border-color 0.2s;
+export const TransactionOperationButton = styled.button<TransactionOperationButtonProps>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: transform 0.1s;
+    background-color: ${(props) => props.isActive ? transparentize(0.7, globalStyleVars[props.activeColor]) : 'transparent'};
+    border: 1px solid #fff;
+    font-size: 1.2rem;
+    user-select: none;
+    -webkit-user-select: none;
+    color: var(--text-title);
+    transition: border-color 0.2s, background-color 0.5s;
 
-        &:active{
-            transform: scale(0.97, 0.97);
-        }
+    &:active{
+        transform: scale(0.97, 0.97);
+    }
 
-        &:hover{
-            border-color: ${darken(0.2, '#fff')};
-        }
+    &:hover{
+        border-color: ${darken(0.2, '#fff')};
+    }
 
-        img{
-            margin-right: 1rem;
-        }
-
-        div{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    img{
+        margin-right: 1rem;
     }
 `
