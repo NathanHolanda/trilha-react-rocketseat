@@ -25,9 +25,16 @@ export const Container = styled.div`
             font-weight: 500;
         }
 
-        &.highlight-background{
-            background-color: var(--green);
+        &.highlight-green, &.highlight-red{
             color: #fff;
+        }
+
+        &.highlight-green{
+            background-color: var(--green);
+        }
+
+        &.highlight-red{
+            background-color: var(--red);
         }
     }
 `

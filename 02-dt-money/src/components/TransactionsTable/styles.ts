@@ -14,25 +14,5 @@ export const Container = styled.div`
             text-align: left;
             line-height: 1.5rem;
         }
-
-        td{
-            border: 0;
-            padding: 1rem 2rem;
-            background-color: var(--shape);
-            color: var(--text-body);
-            border-radius: 0.25rem;
-
-            &:first-child{
-                color: var(--text-title)
-            }
-
-            &.expense{
-                color: var(--red);
-            }
-
-            &.gain{
-                color: var(--green);
-            }
-        }
     }
 `

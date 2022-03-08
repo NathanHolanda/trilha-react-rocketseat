@@ -1,6 +1,10 @@
 import {Container} from './styles'
+import { TransactionItem } from '../TransactionItem';
+import { useTransactions } from '../../context/TransactionsContext';
 
 export function TransactionsTable(){
+    const {transactions} = useTransactions()
+
     return (
         <Container>
             <table>
@@ -13,18 +17,7 @@ export function TransactionsTable(){
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Desenvolvimento de website</td>
-                        <td className="gain">R$ 12000,00</td>
-                        <td>Desenvolvimento</td>
-                        <td>20/02/2021</td>
-                    </tr>
-                    <tr>
-                        <td>Aluguel</td>
-                        <td className="expense">- R$ 1100,00</td>
-                        <td>Casa</td>
-                        <td>05/02/2021</td>
-                    </tr>
+                   {transactions.map(transaction => <TransactionItem key={transaction.id} transaction={transaction} />)} 
                 </tbody>
             </table>
         </Container>

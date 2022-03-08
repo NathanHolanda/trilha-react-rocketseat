@@ -2,14 +2,28 @@ import incomeImg from '../.././assets/income.svg'
 import outcomeImg from '../.././assets/outcome.svg'
 import totalImg from '../.././assets/total.svg'
 import { Container } from './styles';
-import {useEffect} from 'react'
-import {api} from '../../services/api'
+import { useTransactions } from '../../context/TransactionsContext';
+import { toBRL } from './../../helpers/currency';
 
 export function Summary(){
-    useEffect(() => {
-        api.get('transactions')
-            .then(data => console.log(data))
-    }, [])
+    const {transactions} = useTransactions()
+
+    const summary = transactions.reduce((accum, transaction) => {
+        if(transaction.type === 'gain'){ 
+            accum.gains += transaction.value
+            accum.total += transaction.value
+        }else{
+            accum.expenses += transaction.value
+            accum.total -= transaction.value
+        }
+
+        return accum
+    },
+    {
+        gains: 0,
+        expenses: 0,
+        total: 0
+    })
 
     return (
         <Container>
@@ -18,21 +32,23 @@ export function Summary(){
                     <p>Entradas</p>
                     <img src={incomeImg} alt="entradas" />
                 </header>
-                <strong>R$ 1000,00</strong>
+                <strong>{toBRL(summary.gains)}</strong>
             </div>
             <div>
                 <header>
                     <p>Saídas</p>
                     <img src={outcomeImg} alt="saídas" />
                 </header>
-                <strong>- R$ 500,00</strong>
+                <strong>{toBRL(-summary.expenses)}</strong>
             </div>
-            <div className="highlight-background">
+            <div className={
+                summary.total >= 0 ? 'highlight-green' : 'highlight-red'
+            }>
                 <header>
                     <p>Total</p>
                     <img src={totalImg} alt="total" />
                 </header>
-                <strong>R$ 500,00</strong>
+                <strong>{toBRL(summary.total)}</strong>
             </div>
         </Container>
     )

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import {darken, transparentize} from 'polished'
 import { globalStyleVars } from './../../styles/globals';
 
-interface TransactionOperationButtonProps{
+interface TransactionTypeButtonProps{
     isActive: boolean
     activeColor: 'green' | 'red'
 }
@@ -58,14 +58,14 @@ export const Container = styled.form`
     }
 `
 
-export const TransactionOperationContainer = styled.div`
+export const TransactionTypeContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
     margin-bottom: 2rem;
 `
 
-export const TransactionOperationButton = styled.button<TransactionOperationButtonProps>`
+export const TransactionTypeButton = styled.button<TransactionTypeButtonProps>`
     display: flex;
     align-items: center;
     justify-content: center;
