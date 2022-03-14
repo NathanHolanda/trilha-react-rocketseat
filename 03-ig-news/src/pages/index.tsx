@@ -1,12 +1,35 @@
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
+import { Product } from '../interfaces/Product'
+import { stripe } from '../services/stripe'
+import { Home } from './../components/Home';
 
-export default function Home() {
+
+interface IndexProps{
+  product: Product
+}
+
+export default function index({product}: IndexProps) {
   return (
     <>
       <Head>
-        <title>Início | ig.news</title>
+        <title>Home | ig.news</title>
       </Head>
-      <h1>Hello world</h1>
+      <Home product={product} />
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const price = await stripe.prices.retrieve('price_1KbvwaLKxPFC7XfTotKl8ym4')
+
+  const product = {
+      priceId: price.id,
+      amount: (price.unit_amount / 100)
+  }
+
+  return {
+      props: {product},
+      revalidate: 60 * 60 * 24 // 24 hours
+  }
 }
