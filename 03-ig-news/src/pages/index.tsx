@@ -21,7 +21,7 @@ export default function index({product}: IndexProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const price = await stripe.prices.retrieve('price_1KbvwaLKxPFC7XfTotKl8ym4')
+  const price = await stripe.prices.retrieve(process.env.STRIPE_SUBSCRIBE_PRICE_ID)
 
   const product = {
       priceId: price.id,

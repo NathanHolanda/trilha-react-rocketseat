@@ -13,7 +13,7 @@ export default NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-      async signIn({user}){
+    async signIn({user}){
         const {email, name} = user
 
         const getUserByEmail = q.Match(
@@ -41,11 +41,11 @@ export default NextAuth({
                     getUserByEmail
                 )
             )
-          )
-          .then(ret => console.log(ret))
-          .catch(err => console.log(err))
+        )
+        .then(ret => console.log(ret))
+        .catch(err => console.log(err))
 
         return true
-      }
+    }
   } 
 })
