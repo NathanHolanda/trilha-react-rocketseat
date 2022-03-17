@@ -10,6 +10,7 @@
     --grey-100: #E1E1E6;
     --grey-300: #A8A8B3;
     --grey-700: #293438;
+    --grey-750: #323238;
     --grey-800: #29292e;
     --grey-900: #121214;
 
@@ -44,6 +45,7 @@ button{
 }
 
 a{
+    cursor: pointer;
     color: inherit;
     text-decoration: none;
 }

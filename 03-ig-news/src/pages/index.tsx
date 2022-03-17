@@ -9,7 +9,7 @@ interface IndexProps{
   product: Product
 }
 
-export default function index({product}: IndexProps) {
+export default ({product}: IndexProps) => {
   return (
     <>
       <Head>
