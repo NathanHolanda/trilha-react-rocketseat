@@ -1,0 +1,57 @@
+.container{
+    margin: 0 auto;
+    max-width: 720px;
+    padding: 0 2rem;
+}
+
+.post{
+    margin: 5rem 0;
+
+    strong{
+        display: block;
+        font-size: 3rem;
+        margin-bottom: 2rem;
+    }
+
+    time{
+        font-size: 1rem;
+        display: block;
+        margin-bottom: 2rem;
+        color: var(--grey-300);
+    }
+}
+
+.content{
+    color: var(--grey-100);
+    line-height: 1.5rem;
+
+    ul{
+        list-style-type: none;
+    }
+
+    li{
+        display: block;
+        margin: 1rem 0;
+        
+        &::before{
+            position: relative;
+            top: 3px;
+            content: "\2022";
+            font-size: 1.5rem;
+            color: var(--yellow-500);
+            font-weight: bold;
+            display: inline-block;
+            width: 1.5rem;
+            margin-left: 0;
+        }
+    }
+
+    p{
+        margin: 2rem 0;
+    }
+
+    strong, h1, h2, h3, h4, h5, h6{
+        display: block;
+        margin: 3rem 0 2rem; 
+    }
+}

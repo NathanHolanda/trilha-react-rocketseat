@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { SignInButton } from '../../SignInButton'
+import { SignInButton } from './SignInButton'
 import styles from './styles.module.scss'
 import {useRouter} from 'next/router'
 
@@ -13,14 +13,14 @@ export function Header(){
                 <nav>
                     <Link href="/">
                         <a className={
-                            router.route === '/' ?
+                            router.asPath === '/' ?
                             styles.active :
                             ''
                         }>Home</a>
                     </Link>
                     <Link href="/posts">
                         <a className={
-                            router.route === '/posts' ?
+                            router.asPath.substring(0, 6) === '/posts' ?
                             styles.active :
                             ''
                         }>Posts</a>

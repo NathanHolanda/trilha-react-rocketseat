@@ -7,6 +7,17 @@
           "blocks": 1
         }
       }
+    },
+    "2": {
+      "content": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      }
     }
+  },
+  "slices": {
+    "Publication": {}
   }
 }
