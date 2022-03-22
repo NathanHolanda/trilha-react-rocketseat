@@ -1,0 +1,30 @@
+@import '../post.module.scss';
+
+.previewContent{
+    background-image: linear-gradient(var(--grey-100), var(--grey-100), transparent);
+    background-clip: text;
+    color: transparent;
+}
+
+.subscribeButton{
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1.5rem 0;
+    background-color: var(--grey-700);
+    color: #fff;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 3rem;
+    transition: 0.2s;
+
+    &:hover{
+        filter: brightness(1.2);
+    }
+
+    span{
+        color: var(--yellow-500);
+    }
+}
+

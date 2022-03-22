@@ -1,8 +1,10 @@
-import { createPrismicClient } from "../../services/prismic"
+import { createPrismicClient } from "../../../services/prismic"
 import {RichText} from "prismic-dom"
-import styles from "./post.module.scss"
+import styles from "./styles.module.scss"
 import Head from "next/head"
-import { getSession, useSession } from "next-auth/react"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
+import { useSession } from "next-auth/react"
 
 interface PostProps{
     post: {
@@ -16,6 +18,18 @@ interface PostProps{
 }
 
 export default ({post}: PostProps) =>{
+    const router = useRouter()
+    const {data: session} = useSession()
+
+    function handleRedirect(){
+        router.push('/')
+    }
+
+    useEffect(() => {
+        if(session?.activeSubscription)
+            router.push(`/posts/${post.data.id}`)
+    }, [session])
+
     return (
         <>
             <Head>
@@ -26,33 +40,35 @@ export default ({post}: PostProps) =>{
                     <strong>{post.data.title}</strong>
                     <time>{post.updatedAt}</time>
                     <div
-                        className={styles.content}
+                        className={`
+                            ${styles.content} 
+                            ${styles.previewContent}
+                        `}
                         dangerouslySetInnerHTML={{
                             __html: post.data.content
                         }}
                     >
                     </div>
+                    <button onClick={handleRedirect} className={styles.subscribeButton}>
+                        Wanna continue reading?&nbsp;
+                        <span>Subscribe now</span>&nbsp;🤗</button>
                 </article>
             </main>
         </>
     )
 }
 
-export async function getServerSideProps({previewData, params, req}){
+export async function getStaticPaths(){
+    return {
+        paths: [],
+        fallback: 'blocking'
+    }
+}
+
+export async function getStaticProps({previewData, params}){
     const client = createPrismicClient({previewData})
 
     const {id} = params
-
-    const session = await getSession({req})
-    if(!session?.activeSubscription){
-        return {
-            redirect: {
-                permanent: false,
-                destination: `/posts/preview/${id}`
-            }
-        }
-    }
-
     const response = await client.getByID(id)
     const post = {}
     
@@ -64,7 +80,7 @@ export async function getServerSideProps({previewData, params, req}){
                         ...acc,
                         id: response.id,
                         title: response[key].title,
-                        content: RichText.asHtml(response[key].content)
+                        content: RichText.asHtml(response[key].content.splice(0, 2))
                     }
             }
         , {})

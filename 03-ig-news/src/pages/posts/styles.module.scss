@@ -1,13 +1,12 @@
 .container{
-    margin: 0 auto;
+    margin: 5rem auto;
     max-width: 720px;
     padding: 0 2rem;
 }
 
 .post{
     display: block;
-    margin: 5rem 0;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     border-bottom: 1px solid var(--grey-750);
 
     time, strong{
@@ -15,9 +14,16 @@
     }
 
     time, p{
-        margin-bottom: 1rem;
         color: var(--grey-300);
         font-size: 1rem;
+    }
+
+    time{
+        margin-bottom: 1rem;
+    }
+
+    p{
+        margin-bottom: 2rem;
     }
 
     strong{

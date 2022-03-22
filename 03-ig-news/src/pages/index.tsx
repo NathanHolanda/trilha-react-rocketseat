@@ -32,7 +32,7 @@ export default ({ product }: HomeProps) => {
               }).format(product.amount)
             } month</span>
           </p>
-          <SubscribeButton priceId={product.priceId} />
+          <SubscribeButton />
         </section>
         <figure>
           <img src="/images/avatar.svg" alt="Girl coding" />
