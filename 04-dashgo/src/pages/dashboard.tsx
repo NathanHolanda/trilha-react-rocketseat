@@ -1,4 +1,4 @@
-import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, SimpleGrid, Text } from "@chakra-ui/react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";

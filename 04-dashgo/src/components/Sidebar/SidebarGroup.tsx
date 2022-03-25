@@ -1,4 +1,4 @@
-import { Box, Text, Icon, Link, Stack } from "@chakra-ui/react";
+import { Box, Text, Stack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import { SidebarItem } from "./SidebarItem";
 
@@ -17,7 +17,7 @@ export function SidebarGroup({name, items}: SidebarGroupProps){
             <Stack spacing='4' mt='8' align='stretch'>
                 {
                     items.map(item => (
-                        <SidebarItem key={item.name} icon={item.icon} name={item.name}/>
+                        <SidebarItem key={item.name} icon={item.icon} name={item.name} />
                     ))
                 }
             </Stack>

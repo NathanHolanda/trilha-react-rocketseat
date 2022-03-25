@@ -1,18 +1,4 @@
-import {
-    Box,
-    Button,
-    Text,
-    Checkbox,
-    Flex,
-    Heading,
-    Icon,
-    Table,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
-} from "@chakra-ui/react";
+import { Box, Button, Text, Checkbox, Flex, Heading, Icon, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import Head from "next/head";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Layout } from "../../components/Layout";
