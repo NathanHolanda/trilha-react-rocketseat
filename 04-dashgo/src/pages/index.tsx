@@ -6,33 +6,33 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Home | Dashgo</title>
+        <title>Login | Dashgo</title>
       </Head>
       <Flex
-        as='main'
-        align='center'
-        justify='center'
-        w='100vw'
-        h='100vh'
+        as="main"
+        align="center"
+        justify="center"
+        w="100vw"
+        h="100vh"
       >
         <Flex
-          as='form'
-          w='100%'
+          as="form"
+          w="100%"
           maxW={360}
-          bg='gray.800'
-          p='8'
+          bg="gray.800"
+          p="8"
           borderRadius={8}
-          flexDir='column'
+          flexDir="column"
         >
-          <Stack spacing='6'>
-            <Input name='email' type='email' label='E-mail' />
-            <Input name='password' type='password' label='Senha' />
+          <Stack spacing="6">
+            <Input name="email" type="email" label="E-mail" />
+            <Input name="password" type="password" label="Senha" />
           </Stack>
           <Button
-            type='submit'
-            mt='6'
-            size='lg'
-            colorScheme='pink'
+            type="submit"
+            mt="6"
+            size="lg"
+            colorScheme="pink"
           >
             Entrar
           </Button>
