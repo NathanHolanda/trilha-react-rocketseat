@@ -1,8 +1,13 @@
 import { Flex, Icon, Input } from "@chakra-ui/react";
 import { RiSearchLine } from "react-icons/ri";
 
-export function SearchBox() {
+interface SearchBoxProps{
+    showBox: boolean
+}
+
+export function SearchBox({showBox}: SearchBoxProps) {
     return (
+        showBox &&
         <Flex
             as="label"
             flex="1"

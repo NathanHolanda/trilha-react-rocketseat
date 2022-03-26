@@ -1,20 +1,34 @@
-import { Box, Stack } from "@chakra-ui/react"
-import { RiContactsLine, RiDashboardLine, RiGitMergeLine, RiInputMethodLine } from "react-icons/ri"
-import { SidebarGroup } from './SidebarGroup';
+import { Box, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, useBreakpointValue } from "@chakra-ui/react"
+import { useSidebarContext } from "../../contexts/SidebarContext"
+import { SidebarContent } from "./SidebarContent"
 
-export function Sidebar () {
+export function Sidebar() {
+    const isWideScreen = useBreakpointValue({
+        base: false,
+        lg: true,
+    })
+
+    if (isWideScreen) {
+        return (
+            <Box as="aside" w="64" mr="8">
+                <SidebarContent />
+            </Box>
+        )
+    }
+
+    const {onClose, isOpen} = useSidebarContext()
+
     return (
-        <Box as='aside' w='64' mr='8'>
-            <Stack spacing='12' align='flex-start'>
-                <SidebarGroup name='Geral' items={[
-                    {icon: RiDashboardLine, name: 'Dashboard'},
-                    {icon: RiContactsLine, name: 'Usuários'}
-                ]} />
-                <SidebarGroup name='Automação' items={[
-                    {icon: RiInputMethodLine, name: 'Formulário'},
-                    {icon: RiGitMergeLine, name: 'Automação'}
-                ]} />
-            </Stack>
-        </Box>
+        <Drawer placement="left" isOpen={isOpen} onClose={onClose}>
+            <DrawerOverlay>
+                <DrawerContent bg="gray.800">
+                    <DrawerCloseButton mt="6" />
+                    <DrawerHeader />
+                    <DrawerBody>
+                        <SidebarContent />
+                    </DrawerBody>
+                </DrawerContent>
+            </DrawerOverlay>
+        </Drawer>
     )
 }

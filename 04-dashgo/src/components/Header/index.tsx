@@ -1,10 +1,19 @@
-import { Avatar, Box, Flex, HStack, Icon, Input, Text } from "@chakra-ui/react";
-import {RiNotificationLine, RiSearchLine, RiUserAddLine} from 'react-icons/ri'
+import { Flex, IconButton, Icon, useBreakpointValue } from "@chakra-ui/react";
+import { RiMenuLine } from "react-icons/ri";
+import { useSidebarContext } from "../../contexts/SidebarContext";
 import { Logo } from "./Logo";
 import { NotificationsBox } from "./NotificationsBox";
+import { Profile } from "./Profile";
 import { SearchBox } from "./SearchBox";
 
 export function Header(){
+    const {onOpen} = useSidebarContext()
+
+    const isWideScreen = useBreakpointValue({
+        base: false,
+        lg: true
+    })
+
     return (
         <Flex
           as='header'
@@ -16,20 +25,22 @@ export function Header(){
           px='6'
           align='center'
         >
+            <IconButton
+              icon={<Icon as={RiMenuLine}/>}
+              aria-label="Abrir menu de navegação"
+              fontSize="24"
+              variant="unstyled"
+              onClick={onOpen}
+              mr="2"
+            />
             <Logo/>
-            <SearchBox/>
+            <SearchBox showBox={isWideScreen}/>
             <Flex
                 ml='auto'
                 align='center'
             >
                 <NotificationsBox/>
-                <Flex>
-                    <Box mr='4' textAlign='right'>
-                        <Text>Nathan Holanda</Text>
-                        <Text color='gray.300' fontSize='small'>nathan.hl.contato@gmail.com</Text>
-                    </Box>
-                    <Avatar size='md' name='Nathan Holanda' src='https:github.com/nathanholanda.png'/>
-                </Flex>
+                <Profile showProfileInfo={isWideScreen}/>
             </Flex>
         </Flex>
     )
