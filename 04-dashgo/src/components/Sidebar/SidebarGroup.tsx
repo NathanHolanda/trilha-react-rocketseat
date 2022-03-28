@@ -7,6 +7,7 @@ interface SidebarGroupProps{
     items: {
         icon: IconType
         name: string
+        href: string
     }[]
 }
 
@@ -17,7 +18,7 @@ export function SidebarGroup({name, items}: SidebarGroupProps){
             <Stack spacing='4' mt='8' align='stretch'>
                 {
                     items.map(item => (
-                        <SidebarItem key={item.name} icon={item.icon} name={item.name} />
+                        <SidebarItem key={item.name} icon={item.icon} name={item.name} href={item.href} />
                     ))
                 }
             </Stack>

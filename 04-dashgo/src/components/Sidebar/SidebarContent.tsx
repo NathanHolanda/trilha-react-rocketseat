@@ -8,15 +8,31 @@ export function SidebarContent() {
             <SidebarGroup
                 name="Geral"
                 items={[
-                    { icon: RiDashboardLine, name: "Dashboard" },
-                    { icon: RiContactsLine, name: "Usuários" },
+                    {
+                        icon: RiDashboardLine,
+                        name: "Dashboard",
+                        href: "/dashboard",
+                    },
+                    {
+                        icon: RiContactsLine,
+                        name: "Usuários",
+                        href: "/usuarios",
+                    },
                 ]}
             />
             <SidebarGroup
                 name="Automação"
                 items={[
-                    { icon: RiInputMethodLine, name: "Formulário" },
-                    { icon: RiGitMergeLine, name: "Automação" },
+                    {
+                        icon: RiInputMethodLine,
+                        name: "Formulário",
+                        href: "/formularios",
+                    },
+                    {
+                        icon: RiGitMergeLine,
+                        name: "Automação",
+                        href: "/automacao",
+                    },
                 ]}
             />
         </Stack>
