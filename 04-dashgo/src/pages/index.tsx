@@ -25,6 +25,10 @@ export default function Home() {
 
   if(process.env.NODE_ENV === "development") {
     const mirage = mirageServer()
+
+    const users = fetch("api/users")
+      .then(response => response.json())
+      .then(data => console.log(data))
   }
 
   return (
