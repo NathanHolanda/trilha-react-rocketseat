@@ -21,8 +21,6 @@ export function SidebarItem({icon, name, href, ...rest}: SidebarItemProps){
     if( mainRoute.name === href )
         mainRoute.isCurrent = true
 
-    console.log(mainRoute)
-
     return (
         <Link
         href={href}

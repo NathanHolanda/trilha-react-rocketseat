@@ -12,8 +12,8 @@ interface SignInFormData{
 
 export default function Home() {
   const yupSchema = yup.object({
-    email: yup.string().email().required("E-mail inválido"),
-    password: yup.string().required("Senha inválida"),
+    email: yup.string().email().required("E-mail obrigatório"),
+    password: yup.string().required("Senha obrigatória"),
   }).required();
 
   const {register, handleSubmit, formState} = useForm({
