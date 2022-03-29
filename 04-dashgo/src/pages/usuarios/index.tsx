@@ -8,12 +8,20 @@ import { Pagination } from "../../components/Pagination";
 
 export default function UserList() {
     const query = useQuery('users', async () => {
-        await fetch("http://localhost:3000/api/users")
-            .then(response => response.json())
-            .then(data => console.log(data))
-    })
+        const response = await fetch("http://localhost:3000/api/users")
+        const data = await response.json()
 
-    console.log(query)
+        return data.users.map(user => {
+            return {
+                ...user,
+                createdAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                })
+            }
+        })
+    })
 
     const isWideScreen = useBreakpointValue({
         base: false,
@@ -78,129 +86,68 @@ export default function UserList() {
                                             <Checkbox colorScheme="pink" />
                                         </Th>
                                         <Th>Usuário</Th>
-                                        <Th
-                                            display={
-                                                isWideScreen
-                                                    ? "table-cell"
-                                                    : "none"
-                                            }
-                                        >
-                                            Data de cadastro
-                                        </Th>
+                                        {isWideScreen && (
+                                            <Th>Data de cadastro</Th>
+                                        )}
                                         <Th w="8"></Th>
                                     </Tr>
                                 </Thead>
                                 <Tbody>
-                                    <Tr>
-                                        <Td px="6">
-                                            <Checkbox colorScheme="pink" />
-                                        </Td>
-                                        <Td>
-                                            <Box>
-                                                <Text fontWeight="bold">
-                                                    Nathan Holanda
-                                                </Text>
-                                                <Text
-                                                    fontSize="sm"
-                                                    color="gray.300"
-                                                >
-                                                    nathan.hl.contato@gmail.com
-                                                </Text>
-                                            </Box>
-                                        </Td>
-                                        <Td
-                                            display={
-                                                isWideScreen
-                                                    ? "table-cell"
-                                                    : "none"
-                                            }
-                                        >
-                                            25 de março, 2022
-                                        </Td>
-                                        <Td>
-                                            {isWideScreen ? (
-                                                <Button
-                                                    as="a"
-                                                    size="sm"
-                                                    fontSize="sm"
-                                                    cursor="pointer"
-                                                    colorScheme="purple"
-                                                    leftIcon={
-                                                        <Icon
-                                                            as={RiPencilLine}
+                                    {query.data.map((user) => {
+                                        return (
+                                            <Tr>
+                                                <Td px="6">
+                                                    <Checkbox colorScheme="pink" />
+                                                </Td>
+                                                <Td>
+                                                    <Box>
+                                                        <Text fontWeight="bold">
+                                                            {user.name}
+                                                        </Text>
+                                                        <Text
+                                                            fontSize="sm"
+                                                            color="gray.300"
+                                                        >
+                                                            {user.email}
+                                                        </Text>
+                                                    </Box>
+                                                </Td>
+                                                {isWideScreen && (
+                                                    <Td>{user.createdAt}</Td>
+                                                )}
+                                                <Td>
+                                                    {isWideScreen ? (
+                                                        <Button
+                                                            as="a"
+                                                            size="sm"
+                                                            fontSize="sm"
+                                                            cursor="pointer"
+                                                            colorScheme="purple"
+                                                            leftIcon={
+                                                                <Icon
+                                                                    as={
+                                                                        RiPencilLine
+                                                                    }
+                                                                />
+                                                            }
+                                                        >
+                                                            Editar
+                                                        </Button>
+                                                    ) : (
+                                                        <IconButton
+                                                            aria-label="Editar usuário"
+                                                            as="a"
+                                                            size="sm"
+                                                            fontSize="sm"
+                                                            cursor="pointer"
+                                                            colorScheme="purple"
+                                                            icon={<RiPencilLine />}
                                                         />
-                                                    }
-                                                >
-                                                    Editar
-                                                </Button>
-                                            ) : (
-                                                <IconButton
-                                                    aria-label="Editar usuário"
-                                                    as="a"
-                                                    size="sm"
-                                                    fontSize="sm"
-                                                    cursor="pointer"
-                                                    colorScheme="purple"
-                                                    icon={<RiPencilLine />}
-                                                />
-                                            )}
-                                        </Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td px="6">
-                                            <Checkbox colorScheme="pink" />
-                                        </Td>
-                                        <Td>
-                                            <Box>
-                                                <Text fontWeight="bold">
-                                                    Nathan Holanda
-                                                </Text>
-                                                <Text
-                                                    fontSize="sm"
-                                                    color="gray.300"
-                                                >
-                                                    nathan.hl.contato@gmail.com
-                                                </Text>
-                                            </Box>
-                                        </Td>
-                                        <Td
-                                            display={
-                                                isWideScreen
-                                                    ? "table-cell"
-                                                    : "none"
-                                            }
-                                        >
-                                            25 de março, 2022
-                                        </Td>
-                                        <Td>
-                                            {isWideScreen ? (
-                                                <Button
-                                                    as="a"
-                                                    size="sm"
-                                                    fontSize="sm"
-                                                    cursor="pointer"
-                                                    colorScheme="purple"
-                                                    leftIcon={
-                                                        <Icon
-                                                            as={RiPencilLine}
-                                                        />
-                                                    }
-                                                >
-                                                    Editar
-                                                </Button>
-                                            ) : (
-                                                <IconButton
-                                                    aria-label="Editar usuário"
-                                                    as="a"
-                                                    size="sm"
-                                                    fontSize="sm"
-                                                    cursor="pointer"
-                                                    colorScheme="purple"
-                                                    icon={<RiPencilLine />}
-                                                />
-                                            )}
-                                        </Td>
-                                    </Tr>
+                                                    )}
+                                                </Td>
+                                            </Tr>
+                                        )
+                                    })}
                                 </Tbody>
                             </>
                         )}

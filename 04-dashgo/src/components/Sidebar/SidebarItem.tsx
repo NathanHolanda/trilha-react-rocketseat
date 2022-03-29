@@ -1,4 +1,5 @@
-import { Icon, Text, Link, LinkProps as ChakraLinkProps } from "@chakra-ui/react";
+import { Icon, Text, Link as ChakraLink, LinkProps as ChakraLinkProps } from "@chakra-ui/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { IconType } from "react-icons";
 
@@ -22,19 +23,18 @@ export function SidebarItem({icon, name, href, ...rest}: SidebarItemProps){
         mainRoute.isCurrent = true
 
     return (
-        <Link
-        href={href}
-          color={
-            mainRoute.isCurrent ?
-            "pink.400" :
-            "gray.50"
-          }
-          display='flex'
-          alignItems='center'
-          {...rest}
-        >
-            <Icon as={icon} fontSize='20' />
-            <Text ml='4' fontWeight='medium'>{name}</Text>
+        <Link href={href} passHref>
+            <ChakraLink
+                color={mainRoute.isCurrent ? "pink.400" : "gray.50"}
+                display="flex"
+                alignItems="center"
+                {...rest}
+            >
+                <Icon as={icon} fontSize="20" />
+                <Text ml="4" fontWeight="medium">
+                    {name}
+                </Text>
+            </ChakraLink>
         </Link>
-    )
+    );
 }

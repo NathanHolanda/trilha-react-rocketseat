@@ -2,6 +2,7 @@ import { createServer, Factory, Model } from "miragejs"
 import { faker } from "@faker-js/faker"
 
 interface User{
+    id: number
     name: string
     email: string
     created_at: string
@@ -15,6 +16,9 @@ export function mirageServer(){
 
         factories: {
             user: Factory.extend({
+                id(i){
+                    return i+1
+                },
                 name(){ 
                     return faker.name.findName()
                 },
@@ -28,7 +32,7 @@ export function mirageServer(){
         },
 
         seeds(server){
-            server.createList("user", 200)
+            server.createList("user", 10)
         },
 
         routes(){
