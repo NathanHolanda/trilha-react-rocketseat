@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "../components/Form/Input";
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
-import { mirageServer } from "../services/mirage";
 
 interface SignInFormData{
   email: string
@@ -22,14 +21,6 @@ export default function Home() {
   })
 
   const onSubmit: SubmitHandler<SignInFormData> = data => console.log(data);
-
-  if(process.env.NODE_ENV === "development") {
-    const mirage = mirageServer()
-
-    const users = fetch("api/users")
-      .then(response => response.json())
-      .then(data => console.log(data))
-  }
 
   return (
     <>
