@@ -55,6 +55,8 @@ export function mirageServer(){
                 )
             })
 
+            this.get("/users/:id")
+
             this.post("/users")
 
             this.namespace = "" 

@@ -13,7 +13,7 @@ const Context = createContext<PaginationContextProps>({} as PaginationContextPro
 
 export function PaginationContextProvider({children}: PaginationContextProviderProps){
     const [page, setPage] = useState<number>(1)
-    const onPageChange = page => setPage(page)
+    const onPageChange = (page: number) => setPage(page)
 
     return(
         <Context.Provider value={{page, onPageChange}}>

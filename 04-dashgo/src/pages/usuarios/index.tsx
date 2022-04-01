@@ -1,12 +1,13 @@
-import { Box, Button, Text, Checkbox, Flex, Heading, Icon, Table, Tbody, Td, Th, Thead, Tr, useBreakpointValue, IconButton, Spinner } from "@chakra-ui/react";
+import { Box, Button, Text, Checkbox, Flex, Heading, Icon, Table, Tbody, Td, Th, Thead, Tr, useBreakpointValue, IconButton, Spinner, Link } from "@chakra-ui/react";
 import Head from "next/head";
-import Link from "next/link";
-import { useState } from "react";
+import NextLink from "next/link";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Layout } from "../../components/Layout";
 import { Pagination } from "../../components/Pagination";
 import { usePagination } from "../../contexts/PaginationContext";
 import { useUsers } from "../../hooks/useUsers";
+import { api } from "../../services/axios";
+import { queryClient } from "../../services/react-query";
 
 export default function UserList() {
     const {page} = usePagination()
@@ -17,6 +18,14 @@ export default function UserList() {
         base: false,
         lg: true
     })
+
+    const handlePrefetch = async (id: number) => {
+        await queryClient.prefetchQuery(["users", id], async () => {
+            const response = await api.get(`users/${id}`)
+
+            return response.data
+        })
+    }
 
     return (
         <>
@@ -41,7 +50,7 @@ export default function UserList() {
                             Usuários
                             { !isLoading && isFetching && <Spinner ml="3" color="gray.500" /> }
                         </Heading>
-                        <Link href="/usuarios/criar" passHref>
+                        <NextLink href="/usuarios/criar" passHref>
                             <Button
                                 as="a"
                                 size="sm"
@@ -54,7 +63,7 @@ export default function UserList() {
                             >
                                 Criar novo
                             </Button>
-                        </Link>
+                        </NextLink>
                     </Flex>
                     
                     <Table colorScheme="whiteAlpha" variant="striped">
@@ -93,9 +102,11 @@ export default function UserList() {
                                                     </Td>
                                                     <Td>
                                                         <Box>
-                                                            <Text fontWeight="bold">
-                                                                {user.name}
-                                                            </Text>
+                                                            <Link color="purple.400" onMouseEnter={() => handlePrefetch(user.id)}>
+                                                                <Text fontWeight="bold">
+                                                                    {user.name}
+                                                                </Text>
+                                                            </Link>
                                                             <Text
                                                                 fontSize="sm"
                                                                 color="gray.300"

@@ -5,8 +5,7 @@ import { mirageServer } from '../services/mirage'
 import { theme } from '../styles/theme'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { PaginationContextProvider } from '../contexts/PaginationContext'
-
-const queryClient = new QueryClient()
+import { queryClient } from '../services/react-query'
 
 if(process.env.NODE_ENV === "development") {
   mirageServer()
