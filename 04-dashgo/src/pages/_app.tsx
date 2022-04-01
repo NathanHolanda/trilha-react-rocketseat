@@ -3,6 +3,8 @@ import { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { mirageServer } from '../services/mirage'
 import { theme } from '../styles/theme'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { PaginationContextProvider } from '../contexts/PaginationContext'
 
 const queryClient = new QueryClient()
 
@@ -14,8 +16,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
+        <PaginationContextProvider>
+          <Component {...pageProps} />
+        </PaginationContextProvider>
       </ChakraProvider>
+      <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   )
 }

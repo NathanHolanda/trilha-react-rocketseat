@@ -3,12 +3,17 @@ import {
     ButtonProps as ChakraButtonProps,
 } from "@chakra-ui/react";
 
-interface ButtonProps extends ChakraButtonProps {
-    isCurrent?: boolean;
+type ButtonProps = ChakraButtonProps & {
+    isCurrent?: false
     number: number;
+    onPageChange: (page: number) => void
+} | ChakraButtonProps & {
+    isCurrent: boolean;
+    number: number;
+    onPageChange?: () => void
 }
 
-export function Button({ isCurrent = false, number }: ButtonProps) {
+export function Button({ isCurrent = false, number, onPageChange }: ButtonProps) {
     if (isCurrent) {
         return (
             <ChakraButton
@@ -36,6 +41,7 @@ export function Button({ isCurrent = false, number }: ButtonProps) {
             _hover={{
                 bg: "gray.500",
             }}
+            onClick={() => onPageChange(number)}
         >
             {number}
         </ChakraButton>

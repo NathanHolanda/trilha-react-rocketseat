@@ -1,27 +1,17 @@
 import { Box, Button, Text, Checkbox, Flex, Heading, Icon, Table, Tbody, Td, Th, Thead, Tr, useBreakpointValue, IconButton, Spinner } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
-import { useQuery } from "react-query";
 import { Layout } from "../../components/Layout";
 import { Pagination } from "../../components/Pagination";
+import { usePagination } from "../../contexts/PaginationContext";
+import { useUsers } from "../../hooks/useUsers";
 
 export default function UserList() {
-    const query = useQuery('users', async () => {
-        const response = await fetch("http://localhost:3000/api/users")
-        const data = await response.json()
-
-        return data.users.map(user => {
-            return {
-                ...user,
-                createdAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric'
-                })
-            }
-        })
-    })
+    const {page} = usePagination()
+    const perPage = 6
+    const { isLoading, isFetching, data, error } = useUsers(page, perPage)
 
     const isWideScreen = useBreakpointValue({
         base: false,
@@ -49,6 +39,7 @@ export default function UserList() {
                     >
                         <Heading size="lg" fontWeight="normal">
                             Usuários
+                            { !isLoading && isFetching && <Spinner ml="3" color="gray.500" /> }
                         </Heading>
                         <Link href="/usuarios/criar" passHref>
                             <Button
@@ -65,13 +56,13 @@ export default function UserList() {
                             </Button>
                         </Link>
                     </Flex>
-
+                    
                     <Table colorScheme="whiteAlpha" variant="striped">
-                        {query.isLoading ? (
+                        {isLoading ? (
                             <Flex justify="center">
-                                <Spinner />
+                                <Spinner size="xl" thickness="4px" mt="6" />
                             </Flex>
-                        ) : query.error ? (
+                        ) : error ? (
                             <Flex justify="center">
                                 <Text>
                                     Ocorreu um erro ao carregar as informações
@@ -93,66 +84,74 @@ export default function UserList() {
                                     </Tr>
                                 </Thead>
                                 <Tbody>
-                                    {query.data.map((user) => {
-                                        return (
-                                            <Tr>
-                                                <Td px="6">
-                                                    <Checkbox colorScheme="pink" />
-                                                </Td>
-                                                <Td>
-                                                    <Box>
-                                                        <Text fontWeight="bold">
-                                                            {user.name}
-                                                        </Text>
-                                                        <Text
-                                                            fontSize="sm"
-                                                            color="gray.300"
-                                                        >
-                                                            {user.email}
-                                                        </Text>
-                                                    </Box>
-                                                </Td>
-                                                {isWideScreen && (
-                                                    <Td>{user.createdAt}</Td>
-                                                )}
-                                                <Td>
-                                                    {isWideScreen ? (
-                                                        <Button
-                                                            as="a"
-                                                            size="sm"
-                                                            fontSize="sm"
-                                                            cursor="pointer"
-                                                            colorScheme="purple"
-                                                            leftIcon={
-                                                                <Icon
-                                                                    as={
-                                                                        RiPencilLine
-                                                                    }
-                                                                />
-                                                            }
-                                                        >
-                                                            Editar
-                                                        </Button>
-                                                    ) : (
-                                                        <IconButton
-                                                            aria-label="Editar usuário"
-                                                            as="a"
-                                                            size="sm"
-                                                            fontSize="sm"
-                                                            cursor="pointer"
-                                                            colorScheme="purple"
-                                                            icon={<RiPencilLine />}
-                                                        />
+                                    {
+                                        data.users.map((user) => {
+                                            return (
+                                                <Tr key={user.id}>
+                                                    <Td px="6">
+                                                        <Checkbox colorScheme="pink" />
+                                                    </Td>
+                                                    <Td>
+                                                        <Box>
+                                                            <Text fontWeight="bold">
+                                                                {user.name}
+                                                            </Text>
+                                                            <Text
+                                                                fontSize="sm"
+                                                                color="gray.300"
+                                                            >
+                                                                {user.email}
+                                                            </Text>
+                                                        </Box>
+                                                    </Td>
+                                                    {isWideScreen && (
+                                                        <Td>{user.createdAt}</Td>
                                                     )}
-                                                </Td>
-                                            </Tr>
-                                        )
-                                    })}
+                                                    <Td>
+                                                        {isWideScreen ? (
+                                                            <Button
+                                                                as="a"
+                                                                size="sm"
+                                                                fontSize="sm"
+                                                                cursor="pointer"
+                                                                colorScheme="purple"
+                                                                leftIcon={
+                                                                    <Icon
+                                                                        as={
+                                                                            RiPencilLine
+                                                                        }
+                                                                    />
+                                                                }
+                                                            >
+                                                                Editar
+                                                            </Button>
+                                                        ) : (
+                                                            <IconButton
+                                                                aria-label="Editar usuário"
+                                                                as="a"
+                                                                size="sm"
+                                                                fontSize="sm"
+                                                                cursor="pointer"
+                                                                colorScheme="purple"
+                                                                icon={<RiPencilLine />}
+                                                            />
+                                                        )}
+                                                    </Td>
+                                                </Tr>
+                                            )
+                                        })
+                                    }
                                 </Tbody>
                             </>
                         )}
                     </Table>
-                    <Pagination rowDirection={isWideScreen} />
+                    { !isLoading &&
+                    <Pagination
+                        rowDirection={isWideScreen}
+                        totalItems={data.total}
+                        currentPage={page}
+                        itemsPerPage={perPage}
+                    /> }
                 </Box>
             </Layout>
         </>
