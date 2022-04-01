@@ -35,7 +35,11 @@ async function getUsers(page: number, perPage: number ): Promise<GetUserResponse
 }
 
 export function useUsers(page: number, perPage: number = 10){
-    const query = useQuery(['users', page], () => getUsers(page, perPage))
+    const query = useQuery(
+        ['users', page], 
+        () => getUsers(page, perPage), 
+        { staleTime: 600000 } // 10 minutes
+    )
 
     return query
 }

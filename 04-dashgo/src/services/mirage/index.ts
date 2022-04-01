@@ -1,4 +1,4 @@
-import { createServer, Factory, Model, Response } from "miragejs";
+import { ActiveModelSerializer, createServer, Factory, Model, Response } from "miragejs";
 import { faker } from "@faker-js/faker"
 
 interface User{
@@ -10,6 +10,10 @@ interface User{
 
 export function mirageServer(){
     const server = createServer({
+        serializers: {
+            application: ActiveModelSerializer
+        },
+
         models: {
             user: Model.extend<Partial<User>>({})
         },
@@ -46,7 +50,13 @@ export function mirageServer(){
                 const pageStart = (Number(page) - 1) * Number(perPage)
                 const pageEnd = Number(pageStart) + Number(perPage)
 
-                const users = schema.all("user").slice(pageStart, pageEnd).models
+                const users = schema.all("user").models
+                .sort((a, b) => {
+                    if(a.attrs.name > b.attrs.name) return 1
+                    else if(a.attrs.name < b.attrs.name) return -1
+                    else return 0
+                })
+                .slice(pageStart, pageEnd)
 
                 return new Response(
                     200,

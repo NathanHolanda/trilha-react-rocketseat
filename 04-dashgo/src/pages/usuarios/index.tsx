@@ -20,11 +20,15 @@ export default function UserList() {
     })
 
     const handlePrefetch = async (id: number) => {
-        await queryClient.prefetchQuery(["users", id], async () => {
-            const response = await api.get(`users/${id}`)
+        await queryClient.prefetchQuery(
+            ["user", id], 
+            async () => {
+                const response = await api.get(`users/${id}`)
 
-            return response.data
-        })
+                return response.data
+            },
+            { staleTime: 600000 } // 10 minutes
+        )
     }
 
     return (

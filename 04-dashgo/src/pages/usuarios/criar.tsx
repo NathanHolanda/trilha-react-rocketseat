@@ -6,6 +6,9 @@ import { Layout } from "../../components/Layout";
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import { api } from "../../services/axios";
+import { queryClient } from "../../services/react-query";
 
 interface CreateUserFormData{
   name: string
@@ -26,7 +29,25 @@ export default function UserCreate() {
         resolver: yupResolver(yupSchema)
     })
 
-    const onSubmit: SubmitHandler<CreateUserFormData> = data => console.log(data);
+    const createUser = useMutation(async (user: CreateUserFormData) => {
+        delete user.confirmPassword
+
+        const response = await api.post("/users", {
+            user: {
+                ...user,
+                created_at: new Date()
+            }
+        })
+
+        return response.data.user
+    },
+    {
+       onSuccess: () => queryClient.invalidateQueries("user")
+    })
+
+    const handleCreateUser: SubmitHandler<CreateUserFormData> = async (data) => {
+        await createUser.mutateAsync(data)
+    }
 
     return (
         <>
@@ -40,7 +61,7 @@ export default function UserCreate() {
                   borderRadius={8}
                   bg="gray.800"
                   p={["6", "8"]}
-                  onSubmit={handleSubmit(onSubmit)}
+                  onSubmit={handleSubmit(handleCreateUser)}
                 >
                     <Heading size="lg" fontWeight="bold">Criar usuário</Heading>
                     <Divider my="6" borderColor="gray.700" />
@@ -79,7 +100,12 @@ export default function UserCreate() {
                             <Link href="/usuarios" passHref>
                                 <Button colorScheme="whiteAlpha">Cancelar</Button>
                             </Link>
-                            <Button type="submit" colorScheme="pink">Salvar</Button>
+                            <Button
+                              type="submit"
+                              colorScheme="pink"
+                            >
+                                Salvar
+                            </Button>
                         </HStack>
                     </Flex>
                 </Box>
