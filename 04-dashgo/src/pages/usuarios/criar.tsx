@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, Stack } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, Spinner, Stack } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
 import { Input } from "../../components/Form/Input";
@@ -9,6 +9,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { api } from "../../services/axios";
 import { queryClient } from "../../services/react-query";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 interface CreateUserFormData{
   name: string
@@ -18,6 +20,8 @@ interface CreateUserFormData{
 }
 
 export default function UserCreate() {
+    const router = useRouter()
+
     const yupSchema = yup.object({
         name: yup.string().min(5, "Mínimo 5 caracteres").required("Nome obrigatório"),
         email: yup.string().min(6, "Mínimo 6 caracteres").email().required("E-mail obrigatório"),
@@ -48,6 +52,12 @@ export default function UserCreate() {
     const handleCreateUser: SubmitHandler<CreateUserFormData> = async (data) => {
         await createUser.mutateAsync(data)
     }
+
+    useEffect(() => {
+        if( !createUser.isLoading && createUser.isSuccess ){
+            router.push("/usuarios")
+        }
+    }, [createUser.isLoading, createUser.isSuccess])
 
     return (
         <>
@@ -104,7 +114,11 @@ export default function UserCreate() {
                               type="submit"
                               colorScheme="pink"
                             >
-                                Salvar
+                                {
+                                    createUser.isLoading ? 
+                                    <Spinner size="sm" /> :
+                                    "Salvar"
+                                }
                             </Button>
                         </HStack>
                     </Flex>
